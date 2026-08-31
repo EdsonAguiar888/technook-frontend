@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Testando API NestJS</title>
+
+  <style>
+    /* Estilização simples para organizar os dados na tela */
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    button { padding: 10px 15px; cursor: pointer; margin-right: 10px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; }
+    
+    /* Estilos adicionados para os inputs e a lista */
+    .form-container { margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    ul { list-style: none; padding: 0; }
+    li { background: #fff; border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; }
+    .badge { font-size: 11px; padding: 2px 6px; background: #eee; border-radius: 3px; margin-left: 5px; }
+    .btn-deletar { background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1>Consumindo API do NestJS</h1>
+
+  <!-- INPUTS SIMPLES PARA CRIAR TAREFA (INCLUINDO STATUS E PRIORIDADE) -->
+  <div class="form-container">
+    <input type="text" id="tituloInput" placeholder="Título da tarefa..." />
+    <input type="text" id="descricaoInput" placeholder="Descrição..." />
+    
+    <select id="prioridadeSelect">
+      <option value="baixa">Prioridade: Baixa</option>
+      <option value="media">Prioridade: Média</option>
+      <option value="alta">Prioridade: Alta</option>
+    </select>
+
+    <select id="statusSelect">
+      <option value="ABERTA">Status: ABERTA</option>
+      <option value="EM_ANDAMENTO">Status: EM ANDAMENTO</option>
+      <option value="CONCLUIDA">Status: CONCLUÍDA</option>
+    </select>
+
+    <button onclick="criarTarefa()">Criar Tarefa (POST)</button>
+  </div>
+
+  <!-- 1. BOTOES QUE VÃO DISPARAR AS REQUISIÇÕES -->
+  <button onclick="buscarTarefas()">Listar Tarefas (GET)</button>
+
+  <!-- LISTA ESTRUTURADA DE TAREFAS COM BOTAO EXCLUIR -->
+  <h3>Lista de Tarefas:</h3>
+  <ul id="listaTarefas"></ul>
+
+  <h3>Resultado retornado pela API:</h3>
+  <!-- 2. ONDE OS DADOS SERÃO EXIBIDOS -->
+  <pre id="resultado">Clique em um botão acima para carregar os dados...</pre>
+
+  <script>
+    const URL_API = 'http://localhost:3000/tarefas';
+
+    // FUNÇÃO 1: Fazer uma requisição GET (Listar dados)
+    async function buscarTarefas() {
+      try {
+        // 1. O fetch() faz a requisição GET para a URL da sua API
+        const resposta = await fetch(URL_API);
+        
+        // 2. Converte a resposta bruta em um objeto/array JSON
+        const dados = await resposta.json();
+
+        // 3. Exibe o resultado dentro da tag <pre id="resultado"> em formato legível
+        document.getElementById('resultado').textContent = JSON.stringify(dados, null, 2);
+
+        // Renderiza as tarefas na <ul> com o botão Excluir e exibe status/prioridade
+        const lista = document.getElementById('listaTarefas');
+        lista.innerHTML = '';
+        dados.forEach(tarefa => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div>
+              <strong>${tarefa.titulo}</strong> - ${tarefa.descricao || ''}
+              <span class="badge">${tarefa.prioridade || 'baixa'}</span>
+              <span class="badge">${tarefa.status || 'ABERTA'}</span>
+            </div>
+            <button class="btn-deletar" onclick="deletarTarefa('${tarefa.id}')">Excluir</button>
+          `;
+          lista.appendChild(li);
+        });
+      } catch (erro) {
+        document.getElementById('resultado').textContent = 'Erro ao conectar na API: ' + erro.message;
+      }
+    }
+
+    // FUNÇÃO 2: Fazer uma requisição POST (Enviar novos dados)
+    async function criarTarefa() {
+      try {
+        const tituloVal = document.getElementById('tituloInput').value;
+        const descricaoVal = document.getElementById('descricaoInput').value;
+        const prioridadeVal = document.getElementById('prioridadeSelect').value;
+        const statusVal = document.getElementById('statusSelect').value;
+
+        const novaTarefa = {
+          titulo: tituloVal || 'Tarefa via HTML',
+          descricao: descricaoVal || 'Criada ao clicar no botão do navegador!',
+          prioridade: prioridadeVal,
+          status: statusVal
+        };
+
+        // O fetch() com opções para envio de POST
+        const resposta = await fetch(URL_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json' // Avisa a API que estamos enviando JSON
+          },
+          body: JSON.stringify(novaTarefa) // Converte o objeto JS para texto JSON
+        });
+
+        const dadosCriados = await resposta.json();
+
+        // Limpa os inputs de texto
+        document.getElementById('tituloInput').value = '';
+        document.getElementById('descricaoInput').value = '';
+
+        // Exibe na tela o objeto recém-criado que a API devolveu
+        document.getElementById('resultado').textContent = 'Tarefa criada com sucesso!\n\n' + JSON.stringify(dadosCriados, null, 2);
+
+        // Atualiza a lista na tela
+        buscarTarefas();
+      } catch (erro) {
+        document.getElementById('resultado').textContent = 'Erro ao criar tarefa: ' + erro.message;
+      }
+    }
+
+    // FUNÇÃO 3: Fazer uma requisição DELETE (Deletar dados)
+    async function deletarTarefa(id) {
+      if (!confirm('Deseja realmente excluir esta tarefa?')) return;
+
+      try {
+        const resposta = await fetch(`${URL_API}/${id}`, {
+          method: 'DELETE'
+        });
+
+        document.getElementById('resultado').textContent = `Tarefa ID: ${id} excluída com sucesso!`;
+
+        // Recarrega a lista
+        buscarTarefas();
+      } catch (erro) {
+        document.getElementById('resultado').textContent = 'Erro ao deletar tarefa: ' + erro.message;
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+
+
+
+services:
+  # backend:
+  #   build: ./tarefas_backend-api
+  #   container_name: container_backend-2
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DB_HOST=postgres_db
+  #     - DB_PORT=5432
+  #     - DB_USER=tecnook
+  #     - DB_PASS=12345
+  #     - DB_NAME=technook_db
+  #   networks:
+  #     - rede_compartilhada
+
+
+      
+
+  angular:
+    build: ./meu-projeto-frontend
+    container_name: container_angular-2
+    ports:
+      - "4200:4200"
+    # depends_on:
+    #   - backend
+    networks:
+      - rede_compartilhada
+
+networks:
+  rede_compartilhada:
+    external: true
+

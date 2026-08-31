@@ -1,0 +1,23 @@
+// import { NgModule } from '@angular/core';
+// import { RouterModule, Routes } from '@angular/router';
+// import { LoginComponent } from './components/login/login.component';
+// import { TarefaListaComponent } from './tarefas/TarefaListaComponent/tarefa-lista';
+// import { AuthGuard } from './guards/auth.guard';
+
+// const routes: Routes = [
+//   { path: 'login', component: LoginComponent },
+//   { 
+//     path: 'tarefas', 
+//     component: TarefaListaComponent, 
+//     canActivate: [AuthGuard] 
+//   },
+//   { path: '', redirectTo: 'login', pathMatch: 'full' },
+//   { path: '**', redirectTo: 'login' } // Redireciona qualquer rota inválida para o login
+// ];
+
+// @NgModule({
+//   imports: [RouterModule.forRoot(routes)],
+//   exports: [RouterModule],
+  
+// })
+// export class AppRoutingModule { }
