@@ -1,3 +1,7 @@
+
+
+
+
 /* ==========================================================================
    RESET E ESTILOS GERAIS
    ========================================================================== */
@@ -373,14 +377,14 @@ ul#listaTarefas li:hover {
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
-  
+
   /* Efeito de desfoque suave no fundo da página */
   display: flex;
   align-items: center;
 
   /* Centraliza o pop-up verticalmente */
   justify-content: center;
-  
+
   /* Centraliza o pop-up horizontalmente */
 
   /* Garante que fique por cima de tudo (incluindo gráficos) */

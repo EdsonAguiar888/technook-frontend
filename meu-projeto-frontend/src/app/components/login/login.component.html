@@ -1,33 +1,19 @@
 <div style="padding: 40px; background-color: #f0f0f0; border: 2px solid #ccc; margin: 20px; border-radius: 8px;">
   <h1 style="color: black;">Acesso ao Sistema</h1>
-  
+
   <!-- O (submit) no form evita o reload da página e executa a função fazerLogin() -->
   <form (submit)="fazerLogin()">
     <div style="margin-bottom: 12px;">
       <!-- O atributo 'for' associado ao 'id' do input resolve a associação da label -->
       <label for="emailInput" style="color: black; display: block; margin-bottom: 4px;">E-mail:</label>
-      <input 
-        id="emailInput"
-        type="email" 
-        [(ngModel)]="email" 
-        name="email" 
-        autocomplete="username" 
-        required
-        style="padding: 8px; width: 100%; box-sizing: border-box;"
-      >
+      <input id="emailInput" type="email" [(ngModel)]="email" name="email" autocomplete="username" required
+        style="padding: 8px; width: 100%; box-sizing: border-box;">
     </div>
-    
+
     <div style="margin-bottom: 12px;">
       <label for="senhaInput" style="color: black; display: block; margin-bottom: 4px;">Senha:</label>
-      <input 
-        id="senhaInput"
-        type="password" 
-        [(ngModel)]="senha" 
-        name="senha" 
-        autocomplete="current-password" 
-        required
-        style="padding: 8px; width: 100%; box-sizing: border-box;"
-      >
+      <input id="senhaInput" type="password" [(ngModel)]="senha" name="senha" autocomplete="current-password" required
+        style="padding: 8px; width: 100%; box-sizing: border-box;">
     </div>
 
     <!-- type="submit" para disparar o evento de submissão do formulário -->

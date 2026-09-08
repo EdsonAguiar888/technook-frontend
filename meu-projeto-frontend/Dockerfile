@@ -15,7 +15,7 @@ FROM nginx:alpine
 # Copia o build do Angular para a pasta padrão do Nginx
 COPY --from=build /app/dist/meu-projeto-frontend/browser /usr/share/nginx/html
 # Copia a nossa configuração customizada do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

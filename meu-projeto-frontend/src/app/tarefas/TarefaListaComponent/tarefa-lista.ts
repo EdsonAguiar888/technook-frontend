@@ -1,4 +1,7 @@
 
+
+
+
 // src/app/tarefas/tarefa-lista/tarefa-lista.ts
 
 import { ChangeDetectorRef, Component, OnInit, inject, NgZone } from '@angular/core';
@@ -8,6 +11,7 @@ import { TarefaService, Tarefa } from '../tarefa.service';
 
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartEvent } from 'chart.js';
+import { AuthService } from '../../services/auth.service';
 // import { RouterLink, RouterLinkActive } from '@angular/router';
 
 
@@ -29,9 +33,15 @@ export class TarefaListaComponent implements OnInit {
 
 
   constructor(
+    // private tarefaService: TarefaService,
+    public authService: AuthService,
     private cdr: ChangeDetectorRef  //Declara e injeta o serviço ChangeDetectorRef na instância do componente com o nome de variável cdr
   ) { }
 
+
+    isAdmin(): boolean {
+    return this.authService.getRole() === 'admin';
+  }
 
 
   tarefas: Tarefa[] = [];

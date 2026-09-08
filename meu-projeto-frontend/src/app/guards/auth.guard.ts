@@ -2,155 +2,66 @@
 
 
 
-import {
-  Injectable
-} from '@angular/core';
-
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
-  Router,
+  ActivatedRouteSnapshot,
+  Router
 } from '@angular/router';
 
 import {
-  AuthService
+  AuthService,
+  Role
 } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard
-  implements CanActivate {
+export class AuthGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
-  canActivate(): boolean {
+  canActivate(
+    route: ActivatedRouteSnapshot
+  ): boolean {
 
-    if (
-      !this.authService.isLoggedIn()
-    ) {
+    // 1. Verifica se está logado
+    if (!this.authService.isLoggedIn()) {
 
-      this.router.navigate([
-        '/login'
-      ]);
+      this.router.navigate(['/login']);
 
       return false;
     }
 
+    // 2. Pega as roles permitidas na rota
+    const rolesPermitidas =
+      route.data['roles'] as Role[] | undefined;
+
+    // 3. Se a rota não possui restrição de role,
+    // qualquer usuário logado pode acessar
+    if (!rolesPermitidas) {
+      return true;
+    }
+
+    // 4. Descobre a role do usuário logado
+    const roleUsuario =
+      this.authService.getRole();
+
+    // 5. Verifica se a role está autorizada
+    if (
+      !roleUsuario ||
+      !rolesPermitidas.includes(roleUsuario)
+    ) {
+
+      alert('Acesso negado: você não possui permissão.');
+
+      return false;
+    }
+
+    // 6. Está logado e possui permissão
     return true;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // import { Injectable } from '@nestjs/common';
-// // import { AuthGuard } from '@nestjs/passport';
-
-// // @Injectable()
-// // export class JwtAuthGuard extends AuthGuard('jwt') {}
-
-
-
-
-
-
-
-// // import { Injectable } from '@angular/core';
-// // import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-// // import { AuthService, Role } from '../services/auth.service';
-
-// // @Injectable({
-// //   providedIn: 'root'
-// // })
-// // export class AuthGuard implements CanActivate {
-// //   constructor(private authService: AuthService, private router: Router) {}
-
-// //   canActivate(route: ActivatedRouteSnapshot): boolean {
-// //     if (!this.authService.isLoggedIn()) {
-// //       this.router.navigate(['/login']);
-// //       return false;
-// //     }
-
-// //     const expectedRoles: Role[] = route.data['roles'];
-// //     const userRole = this.authService.getRole();
-
-// //     if (expectedRoles && userRole && !expectedRoles.includes(userRole)) {
-// //       alert('Acesso negado: Perfil sem permissão.');
-// //       return false;
-// //     }
-
-// //     return true;
-// //   }
-// // }
-
-
-
-
-
-// import { Injectable } from '@angular/core';
-// import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-// import { AuthService } from '../services/auth.service';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthGuard implements CanActivate {
-//   constructor(private authService: AuthService, private router: Router) {}
-
-//   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-//     const estaLogado = this.authService.isLoggedIn();
-
-
-//     console.log('--- AUTH GUARD EXECUTADO ---');
-//     console.log('Tentando acessar a URL:', state.url);
-//     console.log('Status de Autenticação:', estaLogado);
-
-
-
-
-
-
-//     if (!estaLogado) {
-
-
-
-
-
-//       console.log('Acesso negado. Redirecionando para /login...');
-
-
-
-
-//       // Evita redirecionar se o usuário JÁ ESTIVER indo para a tela de login
-//       if (state.url !== '/login') {
-//         this.router.navigate(['/login']);
-//       }
-//       return false;
-//     }
-
-//     return true;
-//   }
-// }

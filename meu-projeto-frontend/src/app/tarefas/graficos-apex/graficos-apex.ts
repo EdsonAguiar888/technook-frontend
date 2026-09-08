@@ -20,7 +20,7 @@ export class GraficosApexComponent implements AfterViewInit {
   @ViewChild('chartEvolucao') chartEvolucaoRef!: ElementRef;
 
   private tarefaService = inject(TarefaService);
-  
+
   // Instâncias dos gráficos para podermos renderizar/destruir
   private chartStatusInstance?: ApexCharts; // Instancia grafico de Tarefas Status
   private chartPrioridadeInstance?: ApexCharts; // Instancia grafico de Tarefas Prioridade
@@ -51,13 +51,13 @@ export class GraficosApexComponent implements AfterViewInit {
 
 
         //========= Cálculo das Tarefas Ativas (Aberta + Em Andamento)=============
-        const qtdAtivas = qtdAberta + qtdEmAndamento;          
+        const qtdAtivas = qtdAberta + qtdEmAndamento;
         // Percentual de tarefas ativas em relação ao total
-        const percentualAtivas = totalTarefas > 0 
-          ? Math.round((qtdAtivas / totalTarefas) * 100) 
+        const percentualAtivas = totalTarefas > 0
+          ? Math.round((qtdAtivas / totalTarefas) * 100)
           : 0;
 
-          // Renderiza os gráficos nas divs capturadas
+        // Renderiza os gráficos nas divs capturadas
         this.renderizarGraficoStatus(qtdAberta, qtdEmAndamento, qtdConcluida);
         this.renderizarGraficoPrioridade(qtdBaixa, qtdMedia, qtdAlta);
         this.renderizarGraficoAtivas(qtdAtivas, percentualAtivas);
@@ -65,7 +65,7 @@ export class GraficosApexComponent implements AfterViewInit {
         //================Grafico de Evolucao ==========================
         // Exemplo: Agrupando tarefas pelos últimos 7 dias da semana
         const diasSemana = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-        
+
         // Simulação/Contagem de quantidade de tarefas criadas em cada dia
         // (Se você tiver um campo criadoEm na tarefa, pode agrupar por data real)
         const totalPorDia = [2, 5, 3, 8, 4, 6, 9];
@@ -73,8 +73,8 @@ export class GraficosApexComponent implements AfterViewInit {
         // Chama a função para desenhar o novo gráfico
         this.renderizarGraficoEvolucao(diasSemana, totalPorDia);
 
-       
-     
+
+
       },
       error: (err) => console.error('Erro ao carregar dados para os gráficos:', err)
     });
@@ -112,13 +112,13 @@ export class GraficosApexComponent implements AfterViewInit {
         data: [baixa, media, alta]
       }],
       chart: {
-        type: 'bar',        
+        type: 'bar',
         height: 320
       },
       xaxis: {
         categories: ['Baixa', 'Média', 'Alta']
       },
-      colors: ['#189c39'], 
+      colors: ['#189c39'],
       title: {
         text: 'Tarefas por Prioridade',
         align: 'left'

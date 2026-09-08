@@ -1,36 +1,25 @@
-import {
-  HttpInterceptorFn
-} from '@angular/common/http';
-import { refCount } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
 
-export const jwtInterceptor:
-  HttpInterceptorFn = (req, next) => {
+export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const token =
-    localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   console.log(
     '[JWT] Token:',
     token ? 'ENCONTRADO' : 'NÃO ENCONTRADO'
   );
 
-  
-
-  if (token) {
-
-    const reqComToken =
-      req.clone({
-
-        setHeaders: {
-
-          Authorization:
-            `Bearer ${token}`,
-
-        },
-      });
-
-    return next(reqComToken);
+  if (!token) {
+    return next(req);
   }
 
-  return next(req);
+  const reqComToken = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  console.log('[JWT] Authorization enviado');
+
+  return next(reqComToken);
 };

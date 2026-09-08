@@ -16,14 +16,22 @@ export interface Tarefa {
   providedIn: 'root'
 })
 export class TarefaService {
-  private http = inject(HttpClient);
-  private API_URL = 'http://localhost:3000/tarefas';
+  private http = inject(HttpClient);  
+  
+  private readonly API_URL = '/tarefas'; 
+ 
 
   // Listar tarefas com filtros opcionais (GET /tarefas?status=X&prioridade=Y)
   listar(status?: string, prioridade?: string): Observable<Tarefa[]> {
+    console.log("listando tarefas 1")  
+
     let params = new HttpParams();
     if (status) params = params.set('status', status);
+    console.log("listando tarefas 2")
     if (prioridade) params = params.set('prioridade', prioridade);
+
+
+    console.log("listando tarefas 3")
 
     return this.http.get<Tarefa[]>(this.API_URL, { params });
   }

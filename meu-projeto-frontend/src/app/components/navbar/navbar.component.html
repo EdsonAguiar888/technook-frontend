@@ -1,0 +1,40 @@
+<nav class="navbar" *ngIf="authService.isLoggedIn()">
+
+  <div class="navbar-container">
+
+    <!-- MARCA -->
+    <div class="navbar-brand">
+      <span>TECNOOK</span>
+    </div>
+
+    <!-- MENU -->
+    <div class="navbar-menu">
+
+      <a routerLink="/tarefas" routerLinkActive="ativo" class="navbar-link">
+        📋 Tarefas
+      </a>
+
+      <a *ngIf="authService.isAdmin()" routerLink="/graficos" routerLinkActive="ativo" class="navbar-link">
+        📊 Gráficos
+      </a>
+
+    </div>
+
+    <!-- USUÁRIO -->
+    <div class="navbar-user">
+
+      <span class="usuario">
+        👤
+        {{ authService.getEmail() }}
+
+      </span>
+
+      <button type="button" class="btn-sair" (click)="logout()">
+        Sair
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>
