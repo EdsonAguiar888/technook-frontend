@@ -7,10 +7,19 @@ services:
     build: ./meu-projeto-frontend
     container_name: container_angular-2
     restart: always
-    expose:
-      - "80"
+    # expose:
+      
+    volumes:
+      - html_angular:/output
+
+
     networks:
       - rede_compartilhada
+
+      
+volumes:
+  html_angular:
+    external: true
 
 networks:
   rede_compartilhada:

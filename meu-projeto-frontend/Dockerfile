@@ -3,22 +3,78 @@
 
 
 # Estágio 1: Build da aplicação Angular
-FROM node:20-alpine AS build
+FROM node:20-alpine
+
 WORKDIR /app
+
 COPY package*.json ./
+
 RUN npm install --legacy-peer-deps
+
 COPY . .
+
 RUN npm run build -- --configuration production
 
-# Estágio 2: Servidor Nginx de alta performance
-FROM nginx:alpine
-# Copia o build do Angular para a pasta padrão do Nginx
-COPY --from=build /app/dist/meu-projeto-frontend/browser /usr/share/nginx/html
-# Copia a nossa configuração customizada do Nginx
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# O volume compartilhado será montado em /output
+# e receberá os arquivos gerados pelo Angular.
+CMD ["sh", "-c", "rm -rf /output/* && cp -r /app/dist/meu-projeto-frontend/browser/. /output/ && tail -f /dev/null"]
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Estágio 1: Build da aplicação Angular
+# FROM node:20-alpine AS build
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install --legacy-peer-deps
+# COPY . .
+# RUN npm run build -- --configuration production
+
+
+# # # Estágio 2: Container estático de arquivos
+# # FROM alpine:latest
+# # WORKDIR /usr/share/nginx/html
+
+# # # Copia todo o conteúdo compilado de dist/
+# # # COPY --from=build /app/dist/meu-projeto-frontend/browser /usr/share/nginx/html
+# # COPY --from=build /app/dist/meu-projeto-frontend/browser/. /usr/share/nginx/html/
+# # # COPY --from=build /app/dist/meu-projeto-frontend/browser/. .
+
+# # CMD ["sh", "-c", "tail -f /dev/null"]
+
+
+
+
+# # Estágio 2: Servidor Nginx de alta performance
+# FROM nginx:alpine
+# # Copia o build do Angular para a pasta padrão do Nginx
+# COPY --from=build /app/dist/meu-projeto-frontend/browser /usr/share/nginx/html
+# # Copia a nossa configuração customizada do Nginx
+# # COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 
