@@ -1,0 +1,43 @@
+
+
+.login-container {
+  width: 40%;
+  padding: 40px;
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.login-container h1 {
+  color: black;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  color: black;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.form-group input {
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.mensagem-erro {
+  color: red;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
