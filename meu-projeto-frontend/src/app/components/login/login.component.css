@@ -1,4 +1,4 @@
-
+/* 
 
 .login-container {
   width: 40%;
@@ -40,4 +40,115 @@
   margin-top: 15px;
   font-weight: bold;
 }
+
+ */
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+
+/* Container que ocupa a tela toda */
+.login-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+/* Imagem de fundo desfocada usando pseudo-elemento ::before */
+.login-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+   background-image: url('../../../assets/tec1.jpg'); /*Caminho da imagem na pasta assets */
+  background-size: cover;
+  background-position: center;
+  filter: blur(1px); /* Aplica o desfoque apenas na imagem */
+  transform: scale(1.05); /* Evita bordas brancas geradas pelo desfoque */
+  z-index: -1; /* Garante que a imagem fique atrás do formulário */
+}
+
+/* Formulário estilizado no centro */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente para dar destaque ao form */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Sombra elegante */
+  position: relative;
+  z-index: 1;
+}
+
+.login-container h1 {
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  color: #333333;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.login-container button:hover {
+  background-color: #0052a3;
+}
+
+.mensagem-erro {
+  color: #d93025;
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+
+
 
