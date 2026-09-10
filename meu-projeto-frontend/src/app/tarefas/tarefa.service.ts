@@ -18,7 +18,7 @@ export interface Tarefa {
 export class TarefaService {
   private http = inject(HttpClient);  
   
-  private readonly API_URL = '/tarefas'; 
+  private readonly API_URL = '/api/tarefas'; 
  
 
   // Listar tarefas com filtros opcionais (GET /tarefas?status=X&prioridade=Y)

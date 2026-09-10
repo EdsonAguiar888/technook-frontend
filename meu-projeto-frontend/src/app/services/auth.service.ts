@@ -22,7 +22,7 @@ interface LoginResponse {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost/auth';
+  private apiUrl = 'http://localhost/api/auth';
   
 
   constructor(
